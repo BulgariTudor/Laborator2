@@ -1,0 +1,81 @@
+#include <iostream>
+
+using namespace std;
+
+class Stack {
+private:
+    int *data;          // Pointer pentru alocarea dinamică a memoriei
+    int size;           // Numărul total de elemente pe care stiva le poate stoca
+    int top;            // Indexul elementului din vârf al stivei
+
+public:
+    // Constructor implicit
+    Stack() {
+        size = 10;      // Numărul predefinit de elemente
+        data = new int[size];
+        top = -1;       // Stiva este inițial vidă
+    }
+    // Constructor cu parametru
+    Stack(int numElements) {
+        size = numElements;
+        data = new int[size];
+        top = -1;
+    }
+    // Constructor de copiere
+    Stack(const Stack &other) {
+        size = other.size;
+        data = new int[size];
+        top = other.top;
+
+        for (int i = 0; i <= top; i++) {
+            data[i] = other.data[i];
+        }
+    }
+    // Destructor pentru eliberarea memoriei
+    ~Stack() {
+        delete[] data;
+    }
+    // Funcția pentru a verifica dacă stiva este goală
+    bool IsEmpty() {
+        return top == -1;
+    }
+    // Funcția pentru a verifica dacă stiva este plină
+    bool IsFull() {
+        return top == size - 1;
+    }
+    // Funcția pentru a adăuga un element în stivă (Push)
+    void Push(int value) {
+        if (IsFull()) {
+            cout << "Stiva este plina. Nu se poate adauga elementul " << value << endl;
+            return;
+        }
+        data[++top] = value;
+    }
+    // Funcția pentru a scoate un element din stivă (Pop)
+    int Pop() {
+        if (IsEmpty()) {
+            cout << "Stiva este goala. Nu se poate extrage niciun element." << endl;
+            return -1;  // Poate fi orice valoare de eroare
+        }
+        return data[top--];
+    }
+};
+int main() {
+    Stack myStack(5); // Exemplu de stivă cu 5 elemente
+    myStack.Push(1);
+    myStack.Push(2);
+    myStack.Push(3);
+    myStack.Push(4);
+    myStack.Push(5);
+
+    cout << "IsEmpty: " << myStack.IsEmpty() << endl;
+    cout << "IsFull: " << myStack.IsFull() << endl;
+
+    while (!myStack.IsEmpty()) {
+        cout << "Pop: " << myStack.Pop() << endl;
+    }
+    cout << "IsEmpty: " << myStack.IsEmpty() << endl;
+    cout << "IsFull: " << myStack.IsFull() << endl;
+
+    return 0;
+}
